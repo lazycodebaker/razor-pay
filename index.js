@@ -2,7 +2,7 @@ const express = require("express");
 const crypto = require("crypto");
 const razorpayInstance = require("./razorpay.instance");
 
-const KEY_ID = "rzp_test_rxBGcx4XDbrh0V";
+// const KEY_ID = "rzp_test_rxBGcx4XDbrh0V";
 const SECRET_KEY = "H1dnRFeD52W0y0CLZ3GlH4dS";
 
 const app = express();

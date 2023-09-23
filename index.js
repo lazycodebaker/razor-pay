@@ -10,9 +10,15 @@ const PORT = process.env.PORT || 5001;
 
 app.use(express.json());
 
-app.get("/",async (req, res) => {
+app.get("/", async (req, res) => {
   res.json({ message: "Welcome to Razorpay API" });
 });
+
+app.use("/createOrder", authorizeToken);
+app.use("/verifyOrder", authorizeToken);
+app.use("/payment/success", authorizeToken);
+app.use("/payment/failure", authorizeToken);
+// app.use("/payment/:payment_id/refund", authorizeToken);
 
 // Create a new order
 app.post("/createOrder", async (req, res) => {
@@ -23,7 +29,7 @@ app.post("/createOrder", async (req, res) => {
       amount,
       currency,
       receipt,
-      notes
+      notes,
     });
 
     console.log("Order created:", order);
@@ -43,7 +49,7 @@ app.post("/verifyOrder", (req, res) => {
   const key_secret = SECRET_KEY;
 
   const payload = `${order_id}|${payment_id}`;
-  
+
   try {
     const expected_signature = crypto
       .createHmac("sha256", key_secret)
@@ -62,7 +68,6 @@ app.post("/verifyOrder", (req, res) => {
 });
 
 // ... Other code ...
-
 
 // Handle successful payment event
 app.post("/payment/success", (req, res) => {
